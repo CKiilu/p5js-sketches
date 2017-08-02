@@ -1,0 +1,29 @@
+{
+  "name": "codingchallenges2",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "p5": "^0.5.11",
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-esnext": "^0.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.4",
+    "fs-extra": "^4.0.0",
+    "style-loader": "^0.18.2"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --watch",
+    "new": "node management/addSketch.js",
+    "rm": "node management/rmSketch.js",
+    "add": "node management/addFilesToSketch.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
