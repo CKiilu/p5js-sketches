@@ -8,6 +8,7 @@ export default class Pawn extends Piece {
     constructor(...args){
         super(...args);
         this.hasMoved = false;
+        this.points = 1;
     }
 
     getMoves(grid){
@@ -21,7 +22,6 @@ export default class Pawn extends Piece {
     }
 
     getMovesByPos(pos){
-        console.log(this.neighbours)
         let left = this.neighbours[_neighbourPosition[pos + "_LEFT"].index];
         let right = this.neighbours[_neighbourPosition[pos + "_RIGHT"].index];
         let mid = this.neighbours[_neighbourPosition[pos].index];
@@ -46,14 +46,5 @@ export default class Pawn extends Piece {
         if(right && right.side + this.side === 0){
             this.moves.push(_neighbourPosition[pos + "_RIGHT"].gridIndex(this.indexes.col, this.indexes.row, this.w));
         }
-    }
-
-
-    move(grid, point){
-        this.hasMoved = true;
-        grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
-        grid[point.col][point.row].redraw(point);
-        console.log(grid)
-        return grid;
     }
 }

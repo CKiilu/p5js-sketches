@@ -63,24 +63,27 @@ export default class GameState{
 
     handleClick(e){
         let selectionMade = false, hasMoved = false;
-        _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
-            let piece = this.grid[i][j];
-            if(piece && !hasMoved){
-                piece.select(false);
-                if(piece.isInBounds(this.p5.mouseX, this.p5.mouseY)){
-                    piece.select();
-                    this.possibleMoves = piece.getMoves(this.grid);
-                    this.selectedPiece = piece;
-                    selectionMade = true;
-                }
-            }
-        });
 
         let move;
         if(move = this.possibleMoves.find((v) => v.checkBounds(this.p5.mouseX, this.p5.mouseY))){
             this.grid = this.selectedPiece.move(this.grid.slice(), move)
             hasMoved = true;                    
         }
+        if(!hasMoved){
+            _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
+                let piece = this.grid[i][j];
+                if(piece && !hasMoved){
+                    piece.select(false);
+                    if(piece.isInBounds(this.p5.mouseX, this.p5.mouseY)){
+                        piece.select();
+                        this.possibleMoves = piece.getMoves(this.grid);
+                        this.selectedPiece = piece;
+                        selectionMade = true;
+                    }
+                }
+            });
+        }
+
         if(!selectionMade || hasMoved){
             this.selectedPiece = null;
             this.possibleMoves = [];

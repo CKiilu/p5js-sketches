@@ -14,29 +14,12 @@ export default class Piece{
         this.indexes = indexes;
         this.moves = [];
     }
-
-    redraw({col, row}){
-        this.indexes = {col,row};
-        console.log(this.indexes)
-    }
-
+    
     get x(){
         return (this.indexes.col + 1) * this.w - this.w / 2;
     }
-
     get y(){
         return (this.indexes.row + 1) * this.w - this.w / 2;
-    }
-
-    show(){
-        this.p5.fill.apply(this.p5, this.color);
-        this.p5.textSize(12);
-        this.p5.textAlign(this.p5.CENTER);
-        this.p5.text(this.type, this.x, this.y);
-        if(this.selected){
-            this.p5.fill.call(this.p5, ...this.color, 150);
-            this.p5.rect(this.x - this.half, this.y - this.half, this.w, this.w);
-        }
     }
     get left(){
         return this.x - this.half;
@@ -51,6 +34,17 @@ export default class Piece{
         return this.y + this.half;
     }
 
+    show(){
+        this.p5.fill.apply(this.p5, this.color);
+        this.p5.textSize(12);
+        this.p5.textAlign(this.p5.CENTER);
+        this.p5.text(this.type, this.x, this.y);
+        if(this.selected){
+            this.p5.fill.call(this.p5, ...this.color, 150);
+            this.p5.rect(this.x - this.half, this.y - this.half, this.w, this.w);
+        }
+    }
+
     isInBounds(x, y){
         return (
             x > this.left && x < this.right &&
@@ -62,9 +56,31 @@ export default class Piece{
         this.selected = val;
     }
 
-    getMoves(){return [];}
+    getMoves(){
+        throw new Error("Unimplemented method getMoves(grid) : returns Array");
+    }
 
-    move(){
-        throw new Error("Unimplemented method move");
+    move(grid, point){
+        this.hasMoved = true;
+        grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
+        grid[point.col][point.row].indexes = point;
+
+        return grid;
+    }
+
+    createMovementPoint(col, row){
+        return {
+            col: col,
+            row: row,
+            w: this.w,
+            x: col * this.w,
+            y: row * this.w,
+            checkBounds(x, y){
+                return (
+                    this.x < x && this.x + this.w > x &&
+                    this.y < y && this.y + this.w > y
+                )
+            }
+        }
     }
 }
