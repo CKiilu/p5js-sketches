@@ -2,7 +2,7 @@
 
 import Piece from './piece';
 
-import {_find2DArrayNeighbours, _loop2DArray, _neighbourPosition} from '../shared';
+import {_neighbourPosition} from '../shared';
 
 export default class Pawn extends Piece {
     constructor(...args){
@@ -13,7 +13,7 @@ export default class Pawn extends Piece {
 
     getMoves(grid){
         this.moves = [];
-        this.neighbours = _find2DArrayNeighbours(this.indexes.col, this.indexes.row, grid);
+        this.findNeighbours(grid);
         if(this.side < 0)
             this.getMovesByPos("TOP");
         else

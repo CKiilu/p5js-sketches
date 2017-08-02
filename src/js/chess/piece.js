@@ -56,7 +56,11 @@ export default class Piece{
         this.selected = val;
     }
 
-    getMoves(){
+    findNeighbours(grid){
+        this.neighbours = _find2DArrayNeighbours(this.indexes.col, this.indexes.row, grid);
+    }
+
+    getMoves(grid){        
         throw new Error("Unimplemented method getMoves(grid) : returns Array");
     }
 

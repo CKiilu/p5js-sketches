@@ -10,6 +10,7 @@ export default class Knight extends Piece {
 
     getMoves(grid){
         this.moves = [];
+        this.findNeighbours(grid);
         let checkWithinGrid = (n, val) => (n + val < 8 && n + val >= 0 )
         for(let i = -3; i <= 3; i += 2){
             for(let j = -3; j <= 3; j += 2){
