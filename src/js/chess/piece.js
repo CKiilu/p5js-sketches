@@ -3,13 +3,14 @@
 import {_find2DArrayNeighbours, _loop2DArray} from '../shared';
 
 export default class Piece{
-    constructor(p5, type, indexes, w, c, side){
+    constructor(p5, type, indexes, w, player, side){
         this.p5 = p5;
         this.type = type;
         this.w = w;
         this.half = w / 2;
         this.selected = false;
-        this.color = c;
+        this.color = player.color;
+        this.player = player;
         this.side = side;
         this.indexes = indexes;
         this.moves = [];
@@ -60,7 +61,8 @@ export default class Piece{
     }
 
     select(val = true){
-        this.selected = val;
+        if(this.player.turn)
+            this.selected = val;
     }
 
     findNeighbours(grid, col = this.indexes.col, row = this.indexes.row){
@@ -75,6 +77,7 @@ export default class Piece{
         this.hasMoved = true;
         grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
         grid[point.col][point.row].indexes = point;
+        this.player.turn = true;
 
         return grid;
     }

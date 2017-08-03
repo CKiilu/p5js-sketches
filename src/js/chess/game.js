@@ -1,9 +1,7 @@
 'use strict';
 
 import {_create2DArray, _loop2DArray} from '../shared';
-import {pieceTypes, pieceGenerator} from './config';
-
-
+import Player from './player';
 
 export default class GameState{
     constructor(p5, blackFirst = true){
@@ -17,27 +15,11 @@ export default class GameState{
         this.loadBoard();
     }
 
-    loadPieces(color, rowOff = 0){
-        let types = pieceTypes.slice();
-        let side = 1;
-        if(rowOff !== 0){
-            side = -1;
-            types.reverse();
-        }
-        
-        for (let col = 0; col < 8; col++) {
-            let i = 0;
-            for (let r = 0; r < 2; r++) {
-                let row = r + rowOff;
-                this.grid[col][row] = pieceGenerator(this.p5, types[r][col], {col, row}, this.pieceSize, color, side);
-                i++;
-            }
-        }
-    }
-
     loadBoard(){
-        this.loadPieces([255, 0, 0]);
-        this.loadPieces([40,156,86], 6);
+        this.player1 = new Player(this, true, [255, 0, 0]);
+        this.player2 = new Player(this, false, [40,156,86], 6);
+        this.player1.loadPieces();
+        this.player2.loadPieces();
     }
 
     show(){
@@ -67,12 +49,13 @@ export default class GameState{
         let move;
         if(move = this.possibleMoves.find((v) => v.checkBounds(this.p5.mouseX, this.p5.mouseY))){
             this.grid = this.selectedPiece.move(this.grid.slice(), move)
-            hasMoved = true;                    
+            hasMoved = true;                  
         }
-        if(!hasMoved){
-            _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
-                let piece = this.grid[i][j];
-                if(piece && !hasMoved){
+
+        _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
+            let piece = this.grid[i][j];
+            if(piece){
+                if(!hasMoved && piece.player.turn){
                     piece.select(false);
                     if(piece.isInBounds(this.p5.mouseX, this.p5.mouseY)){
                         piece.select();
@@ -80,9 +63,11 @@ export default class GameState{
                         this.selectedPiece = piece;
                         selectionMade = true;
                     }
+                } else if(hasMoved && this.selectedPiece) {
+                    piece.player.turn = (piece.player !== this.selectedPiece.player);
                 }
-            });
-        }
+            }
+        });
 
         if(!selectionMade || hasMoved){
             this.selectedPiece = null;
