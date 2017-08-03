@@ -7,7 +7,6 @@ import {_neighbourPosition} from '../shared';
 export default class Pawn extends Piece {
     constructor(...args){
         super(...args);
-        this.hasMoved = false;
         this.points = 1;
     }
 
@@ -15,9 +14,9 @@ export default class Pawn extends Piece {
         this.moves = [];
         this.findNeighbours(grid);
         if(this.side < 0)
-            this.getMovesByPos("TOP");
-        else
             this.getMovesByPos("BOT");
+        else
+            this.getMovesByPos("TOP");
         return this.moves;
     }
 
@@ -31,7 +30,7 @@ export default class Pawn extends Piece {
             this.moves.push(val);
 
             if(!this.hasMoved){
-                let off = this.side > 0 ? val.row + 1 : val.row - 1;
+                let off = this.side < 0 ? val.row + 1 : val.row - 1;
                 this.moves.push(Object.assign({}, val, { 
                     x: this.w * val.col,
                     y: this.w * off,

@@ -6,11 +6,12 @@ const sketch = (s) => {
     let gameState, player1, player2;
     const playerState = (p) => (`
         <h2> ${p.name} : Score - ${p.score}</h2>
-        <p>${p.piecesCaptured.join(",")}</p>
+        <p>${p.piecesCaptured.map((url) => `<img src="${url}"/>`)}</p>
     `);
 
     s.setup = function() {
         s.createCanvas(601, 601);
+        s.frameRate(10);
         gameState = new GameState(s);
 
         let out = s.select("#output");
@@ -29,21 +30,23 @@ const sketch = (s) => {
         player1.style("height", s.height / 2 + "px")
         player2.style("height", s.height / 2 + "px")
 
-        out.html("Play chess")
+        out.html("Play chess");
+
+        player1.html(playerState(gameState.getPlayer1));
+        player2.html(playerState(gameState.getPlayer2));
     }
     
     s.draw = function() {
         s.background(255);
         gameState.show();
-
-
-        player1.html(playerState(gameState.getPlayer1));
-        player2.html(playerState(gameState.getPlayer2));
     }
 
 
     s.mousePressed = function (e) {
         gameState.handleClick(e);
+
+        player1.html(playerState(gameState.getPlayer1));
+        player2.html(playerState(gameState.getPlayer2));
     }
     
 };

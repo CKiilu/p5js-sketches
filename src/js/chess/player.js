@@ -15,9 +15,9 @@ export default class Player {
 
     loadPieces(){
         let types = pieceTypes.slice();
-        let side = 1;
+        let side = -1;
         if(this.rowOff !== 0){
-            side = -1;
+            side = 1;
             types.reverse();
         }
         

@@ -14,12 +14,15 @@ export default class Piece{
         this.side = side;
         this.indexes = indexes;
         this.moves = [];
-        if(img)
-            this.img = this.p5.loadImage(this.imagePath(img));
+        this.hasMoved = false;
+        if(img){
+            this.imgURL = this.imagePath(img);
+            this.img = this.p5.loadImage(this.imgURL);
+        }
     }
 
     imagePath(p){
-        return `./img/Chess_${p}${this.side > 0 ? "l" : "d"}t60.png`;
+        return `./img/Chess_${p}${this.side < 0 ? "l" : "d"}t60.png`;
     }
     
     get x(){
@@ -89,9 +92,13 @@ export default class Piece{
         grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
         grid[point.col][point.row].indexes = point;
         this.player.turn = true;
+        if(point.castling){
+            grid[point.rookToIndexes.col][point.rookToIndexes.row] = grid[point.rookFromIndexes.col].splice(point.rookFromIndexes.row, 1, undefined)[0];
+            grid[point.rookToIndexes.col][point.rookToIndexes.row].indexes = point.rookToIndexes;
+        }
         if(piece && piece.points){
             this.player.score += piece.points;
-            this.player.piecesCaptured.push(piece.type);
+            this.player.piecesCaptured.push(piece.imgURL);
         }
 
         return grid;
