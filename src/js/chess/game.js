@@ -38,7 +38,11 @@ export default class GameState{
     show(){
         _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
             this.isBlack = !this.isBlack;
-            this.p5.fill(this.isBlack ? 0 : 255);
+            if(this.isBlack){
+                this.p5.fill(129,60,60)
+            } else {
+                this.p5.fill(255);
+            }
             this.p5.rect(j * this.pieceSize, i * this.pieceSize, this.pieceSize, this.pieceSize);
         }, () => this.isBlack = !this.isBlack);
 

@@ -3,7 +3,7 @@
 import {_find2DArrayNeighbours, _loop2DArray} from '../shared';
 
 export default class Piece{
-    constructor(p5, type, indexes, w, player, side){
+    constructor(p5, type, indexes, w, player, side, img){
         this.p5 = p5;
         this.type = type;
         this.w = w;
@@ -14,6 +14,12 @@ export default class Piece{
         this.side = side;
         this.indexes = indexes;
         this.moves = [];
+        if(img)
+            this.img = this.p5.loadImage(this.imagePath(img));
+    }
+
+    imagePath(p){
+        return `./img/Chess_${p}${this.side > 0 ? "l" : "d"}t60.png`;
     }
     
     get x(){
@@ -36,10 +42,14 @@ export default class Piece{
     }
 
     show(){
-        this.p5.fill.apply(this.p5, this.color);
-        this.p5.textSize(12);
-        this.p5.textAlign(this.p5.CENTER);
-        this.p5.text(this.type, this.x, this.y);
+        if(!this.img){
+            this.p5.fill.apply(this.p5, this.color);
+            this.p5.textSize(12);
+            this.p5.textAlign(this.p5.CENTER);
+            this.p5.text(this.type, this.x, this.y);
+        } else {
+            this.p5.image(this.img, this.left, this.top, this.w, this.w);
+        }
         if(this.selected){
             this.p5.fill.call(this.p5, ...this.color, 150);
             this.p5.rect(this.x - this.half, this.y - this.half, this.w, this.w);

@@ -13,17 +13,17 @@ import Rook from './rook';
 export function pieceGenerator(...args){
     switch(args[1]){
         case 'BISHOP':
-            return new Bishop(...args);            
+            return new Bishop(...args, "b");            
         case 'KING':
-            return new King(...args);            
+            return new King(...args, "k");            
         case 'KNIGHT':
-            return new Knight(...args);            
+            return new Knight(...args, "n");            
         case 'PAWN':
-            return new Pawn(...args);          
+            return new Pawn(...args, "p");          
         case 'QUEEN':
-            return new Queen(...args);            
+            return new Queen(...args, "q");            
         case 'ROOK':
-            return new Rook(...args);
+            return new Rook(...args, "r");
         default:
             return new Piece(...args);
     }
