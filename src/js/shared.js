@@ -81,15 +81,23 @@ export function _loop2DArray(rows, cols, cb, cbAfterRow) {
 }
 
 export function _find2DArrayNeighbours(i, j, arr){
-    const neighbours = [];
-
+    const neighbours = new Array(8);
+    let index = 0;
+    
     for (let offCol = -1; offCol <= 1; offCol++) {
         let col = offCol + i;
-        if (col < 0 || col >= arr.length) continue;
+        if (col < 0 || col >= arr.length) {
+            index++;
+            continue;
+        }
         for (let offRow = -1; offRow <= 1; offRow++) {
+            if(offRow === 0 && offCol === 0) continue;
             let row = offRow + j;
-            if (row < 0 || row >= arr[col].length || (i === col && j === row)) continue;
-            neighbours.push(arr[col][row]);
+            if (row < 0 || row >= arr[col].length) {
+                index++;
+                continue;
+            }
+            neighbours[index++] = arr[col][row];
         }            
     }
 

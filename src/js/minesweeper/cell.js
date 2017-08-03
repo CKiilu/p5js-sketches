@@ -53,7 +53,7 @@ export default class Cell {
 
         for (let i = 0; i < this.neighbours.length; i++) {
             let el = this.neighbours[i];
-            if(el.mine)
+            if(el && el.mine)
                 total++
         }
 
@@ -63,7 +63,7 @@ export default class Cell {
     clearSpaces(){
         for (let i = 0; i < this.neighbours.length; i++) {
             let el = this.neighbours[i];
-            if(!el.mine && !el.revealed){
+            if(el && !el.mine && !el.revealed){
                 el.reveal();
             }
         }

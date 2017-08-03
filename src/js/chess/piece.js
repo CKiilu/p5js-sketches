@@ -52,12 +52,19 @@ export default class Piece{
         );
     }
 
+    checkPointWithinGrid(pos){
+        return (
+            pos.col < 8 && pos.col >= 0 &&
+            pos.row < 8 && pos.row >= 0
+        )
+    }
+
     select(val = true){
         this.selected = val;
     }
 
-    findNeighbours(grid){
-        this.neighbours = _find2DArrayNeighbours(this.indexes.col, this.indexes.row, grid);
+    findNeighbours(grid, col = this.indexes.col, row = this.indexes.row){
+        return this.neighbours = _find2DArrayNeighbours(col, row, grid);
     }
 
     getMoves(grid){        
