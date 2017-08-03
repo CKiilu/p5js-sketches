@@ -92,7 +92,7 @@ export default class Piece{
         let piece = grid[point.col][point.row];
         grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
         grid[point.col][point.row].indexes = point;
-        this.player.turn = true;
+        this.player.turn = false;
         if(point.castling){
             grid[point.rookToIndexes.col][point.rookToIndexes.row] = grid[point.rookFromIndexes.col].splice(point.rookFromIndexes.row, 1, undefined)[0];
             grid[point.rookToIndexes.col][point.rookToIndexes.row].indexes = point.rookToIndexes;

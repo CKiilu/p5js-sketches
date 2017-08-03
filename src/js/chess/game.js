@@ -72,8 +72,8 @@ export default class GameState{
         _loop2DArray(this.gridSize, this.gridSize, (i, j) => {
             let piece = this.grid[i][j];
             if(piece){
+                piece.select(false);
                 if(!hasMoved && piece.player.turn){
-                    piece.select(false);
                     if(piece.isInBounds(this.p5.mouseX, this.p5.mouseY)){
                         piece.select();
                         this.possibleMoves = piece.getMoves(this.grid);
