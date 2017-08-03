@@ -16,11 +16,12 @@ export default class Piece{
         this.moves = [];
         this.hasMoved = false;
         this.pre = "";
+        this.imgColor = this.side < 0 ? "l" : "d";
     }
 
     loadImage(){
         if(this.pre){
-            this.imgURL =  `./img/Chess_${this.pre}${this.side < 0 ? "l" : "d"}t60.png`;
+            this.imgURL =  `./img/Chess_${this.pre}${this.imgColor}t60.png`;
             this.img = this.p5.loadImage(this.imgURL);
         }
     }
