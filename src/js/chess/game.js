@@ -15,6 +15,19 @@ export default class GameState{
         this.loadBoard();
     }
 
+    get getPlayer1(){
+        return this.player1;
+    }
+    get getPlayer2(){
+        return this.player2;
+    }
+    setPlayer1Name(){
+        this.player1.name = name;
+    }
+    setPlayer2Name(){
+        this.player2.name = name;
+    }
+
     loadBoard(){
         this.player1 = new Player(this, true, [255, 0, 0]);
         this.player2 = new Player(this, false, [40,156,86], 6);

@@ -9,6 +9,8 @@ export default class Player {
         this.color = color;
         this.rowOff = rowOff;
         this.score = 0;
+        this.piecesCaptured = [];
+        this.name = "Player "+ (rowOff === 0  ? "1" : "2");
     }
 
     loadPieces(){

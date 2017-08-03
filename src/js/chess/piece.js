@@ -75,9 +75,14 @@ export default class Piece{
 
     move(grid, point){
         this.hasMoved = true;
+        let piece = grid[point.col][point.row];
         grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
         grid[point.col][point.row].indexes = point;
         this.player.turn = true;
+        if(piece && piece.points){
+            this.player.score += piece.points;
+            this.player.piecesCaptured.push(piece.type);
+        }
 
         return grid;
     }
