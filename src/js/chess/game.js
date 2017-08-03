@@ -21,18 +21,18 @@ export default class GameState{
     get getPlayer2(){
         return this.player2;
     }
-    setPlayer1Name(){
+    setPlayer1Name(name){
         this.player1.name = name;
     }
-    setPlayer2Name(){
+    setPlayer2Name(name){
         this.player2.name = name;
     }
 
-    loadBoard(){
+    loadBoard(reverseBoard = false){
         this.player1 = new Player(this, true, [255, 0, 0]);
         this.player2 = new Player(this, false, [40,156,86], 6);
-        this.player1.loadPieces();
-        this.player2.loadPieces();
+        this.player1.loadPieces(reverseBoard);
+        this.player2.loadPieces(reverseBoard);
     }
 
     show(){

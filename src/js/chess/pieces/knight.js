@@ -6,6 +6,7 @@ export default class Knight extends Piece {
     constructor(...args){
         super(...args);
         this.points = 3;
+        this.pre = "n";
     }
 
     getMoves(grid){

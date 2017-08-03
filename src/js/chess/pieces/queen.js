@@ -5,7 +5,8 @@ import Piece from './multi-piece';
 export default class Queen extends Piece {
     constructor(...args){
         super(...args);
-        this.points = 9;        
+        this.points = 9;
+        this.pre = "q";
     }
 
     getMoves(grid){

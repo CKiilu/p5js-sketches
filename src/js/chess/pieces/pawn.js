@@ -2,12 +2,13 @@
 
 import Piece from './piece';
 
-import {_neighbourPosition} from '../shared';
+import {_neighbourPosition} from '../../shared';
 
 export default class Pawn extends Piece {
     constructor(...args){
         super(...args);
         this.points = 1;
+        this.pre = "p";
     }
 
     getMoves(grid){

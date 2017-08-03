@@ -2,7 +2,7 @@
 
 import Piece from './piece';
 
-import {_find2DArrayNeighbours, _neighbourPosition} from '../shared';
+import {_find2DArrayNeighbours, _neighbourPosition} from '../../shared';
 
 export default class MultiMovementPiece extends Piece{
     constructor(...args){

@@ -13,12 +13,15 @@ export default class Player {
         this.name = "Player "+ (rowOff === 0  ? "1" : "2");
     }
 
-    loadPieces(){
+    loadPieces(reverse = false){
         let types = pieceTypes.slice();
         let side = -1;
         if(this.rowOff !== 0){
             side = 1;
             types.reverse();
+        }
+        if(reverse){
+            side *= -1;
         }
         
         for (let col = 0; col < 8; col++) {
@@ -26,6 +29,7 @@ export default class Player {
             for (let r = 0; r < 2; r++) {
                 let row = r + this.rowOff;
                 this.gameState.grid[col][row] = pieceGenerator(this.gameState.p5, types[r][col], {col, row}, this.gameState.pieceSize, this, side);
+                this.gameState.grid[col][row].loadImage();
                 i++;
             }
         }

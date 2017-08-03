@@ -2,12 +2,11 @@
 
 import Piece from './multi-piece';
 
-import {_find2DArrayNeighbours, _neighbourPosition} from '../shared';
-
 export default class Bishop extends Piece{
     constructor(...args){
         super(...args);
         this.points = 3;
+        this.pre = "b";
     }
 
     getMoves(grid){

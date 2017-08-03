@@ -1,9 +1,9 @@
 'use strict';
 
-import {_find2DArrayNeighbours, _loop2DArray} from '../shared';
+import {_find2DArrayNeighbours, _loop2DArray} from '../../shared';
 
 export default class Piece{
-    constructor(p5, type, indexes, w, player, side, img){
+    constructor(p5, type, indexes, w, player, side){
         this.p5 = p5;
         this.type = type;
         this.w = w;
@@ -15,14 +15,14 @@ export default class Piece{
         this.indexes = indexes;
         this.moves = [];
         this.hasMoved = false;
-        if(img){
-            this.imgURL = this.imagePath(img);
-            this.img = this.p5.loadImage(this.imgURL);
-        }
+        this.pre = "";
     }
 
-    imagePath(p){
-        return `./img/Chess_${p}${this.side < 0 ? "l" : "d"}t60.png`;
+    loadImage(){
+        if(this.pre){
+            this.imgURL =  `./img/Chess_${this.pre}${this.side < 0 ? "l" : "d"}t60.png`;
+            this.img = this.p5.loadImage(this.imgURL);
+        }
     }
     
     get x(){

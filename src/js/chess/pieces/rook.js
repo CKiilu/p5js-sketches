@@ -6,6 +6,7 @@ export default class Rook extends Piece {
     constructor(...args){
         super(...args);
         this.points = 5;
+        this.pre = "r";
     }
 
     getMoves(grid){
