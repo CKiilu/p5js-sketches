@@ -5,6 +5,9 @@ import {pieceGenerator} from '../config';
 
 import {_neighbourPosition} from '../../shared';
 
+const TOP = "TOP";
+const BOT = "BOT";
+
 export default class Pawn extends Piece {
     constructor(...args){
         super(...args);
@@ -16,23 +19,25 @@ export default class Pawn extends Piece {
         this.moves = [];
         this.findNeighbours(grid);
         if(this.side < 0)
-            this.getMovesByPos("BOT");
+            this.getMovesByPos(BOT);
         else
-            this.getMovesByPos("TOP");
+            this.getMovesByPos(TOP);
         return this.moves;
     }
 
     getMovesByPos(pos){
-        let left = this.neighbours[_neighbourPosition[pos + "_LEFT"].index];
-        let right = this.neighbours[_neighbourPosition[pos + "_RIGHT"].index];
-        let mid = this.neighbours[_neighbourPosition[pos].index];
+        let topLeft = this.neighbours[_neighbourPosition[pos + "_LEFT"].index];
+        let topRight = this.neighbours[_neighbourPosition[pos + "_RIGHT"].index];
+        let top = this.neighbours[_neighbourPosition[pos].index];
+        let left = this.neighbours[_neighbourPosition.LEFT.index];
+        let right = this.neighbours[_neighbourPosition.RIGHT.index];
         let val = _neighbourPosition[pos].gridIndex(this.indexes.col, this.indexes.row, this.w);
         
-        if(!mid){
+        if(!top){
             this.moves.push(val);
 
             if(!this.hasMoved){
-                let off = this.side < 0 ? val.row + 1 : val.row - 1;
+                let off = pos === BOT ? val.row + 1 : val.row - 1;
                 this.moves.push(Object.assign({}, val, { 
                     x: this.w * val.col,
                     y: this.w * off,
@@ -40,12 +45,28 @@ export default class Pawn extends Piece {
                 }));  
             }
         }
+
+        if(pos === BOT && this.indexes.row === 4){
+            this.addEnpassantMove(left, 1);
+            this.addEnpassantMove(right, 1);
+        } else if (pos === TOP && this.indexes.row === 3){
+            this.addEnpassantMove(left, -1);
+            this.addEnpassantMove(right, -1);
+        }
         
-        if(left && left.side + this.side === 0){
+        if(topLeft && topLeft.side + this.side === 0){
             this.moves.push(_neighbourPosition[pos + "_LEFT"].gridIndex(this.indexes.col, this.indexes.row, this.w));
         }
-        if(right && right.side + this.side === 0){
+        if(topRight && topRight.side + this.side === 0){
             this.moves.push(_neighbourPosition[pos + "_RIGHT"].gridIndex(this.indexes.col, this.indexes.row, this.w));
+        }
+    }
+
+    addEnpassantMove(val, off){
+        if(val && val.history.length === 1 && val.pre === "p"){
+            this.moves.push(Object.assign({}, this.createMovementPoint(this.indexes.col + off, this.indexes.row + off), {
+                first: this.createMovementPoint(val.indexes.col, val.indexes.row)
+            }));
         }
     }
 

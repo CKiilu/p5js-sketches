@@ -14,6 +14,7 @@ export default class Piece{
         this.side = side;
         this.indexes = indexes;
         this.moves = [];
+        this.history = [];
         this.hasMoved = false;
         this.pre = "";
         this.imgColor = this.side < 0 ? "l" : "d";
@@ -89,12 +90,16 @@ export default class Piece{
 
     move(grid, point){
         this.hasMoved = true;
+        this.history.unshift(this.indexes);
         let piece = grid[point.col][point.row];
-        grid[point.col][point.row] = grid[this.indexes.col].splice(this.indexes.row, 1, undefined)[0];
+        grid[point.col][point.row] = this.remove(grid);
         grid[point.col][point.row].indexes = point;
+        if(point.first){
+            this.remove(grid, point.first.col, point.first.row);
+        }
         this.player.turn = false;
         if(point.castling){
-            grid[point.rookToIndexes.col][point.rookToIndexes.row] = grid[point.rookFromIndexes.col].splice(point.rookFromIndexes.row, 1, undefined)[0];
+            grid[point.rookToIndexes.col][point.rookToIndexes.row] = this.remove(grid, point.rookFromIndexes.col, point.rookFromIndexes.row);
             grid[point.rookToIndexes.col][point.rookToIndexes.row].indexes = point.rookToIndexes;
         }
         if(piece && piece.points){
@@ -103,6 +108,10 @@ export default class Piece{
         }
 
         return grid;
+    }
+
+    remove(grid, col = this.indexes.col, row = this.indexes.row){
+        return grid[col].splice(row, 1, undefined)[0];
     }
 
     createMovementPoint(col, row){
